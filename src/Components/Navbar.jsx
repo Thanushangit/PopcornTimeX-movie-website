@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BiCameraMovie } from "react-icons/bi";
 import { MdMenuOpen, MdClose } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     const [menu, setMenu] = useState(false);
@@ -17,6 +17,16 @@ const Navbar = () => {
     // Common className function
     const navLinkClass = ({ isActive }) =>
         `transition-all hover:text-yellow-500 duration-300 ${isActive ? "text-yellow-500" : ""}`;
+
+    const navigate =useNavigate()
+
+
+    function HandleSubmit(e){
+            e.preventDefault();
+            const queryTerm=e.target.search.value;
+            e.target.reset();
+            return navigate(`/search/?q=${queryTerm}`)
+    }
 
     return (
         <div className="bg-black/80 text-gray-200 fixed top-0 left-0 w-full z-50 flex items-center flex-col lg:flex-row">
@@ -48,11 +58,13 @@ const Navbar = () => {
 
             {/* Search Box */}
             <div className="py-3 px-3 lg:py-4 lg:px-8 w-full lg:w-1/3 flex justify-center">
-                <input
-                    type="search"
-                    className="bg-gray-300 rounded-full text-gray-700 py-1 px-2 md:py-2 md:px-4 outline-0 w-full md:w-1/2 lg:w-full"
-                    placeholder="Search Movie..."
-                />
+                <form onSubmit={HandleSubmit}>
+                    <input
+                        type="search"
+                        className="bg-gray-300 rounded-full text-gray-700 py-1 px-2 md:py-2 md:px-4 outline-0 w-full md:w-1/2 lg:w-full"
+                        placeholder="Search Movie..." name="search"
+                    />
+                </form>
             </div>
         </div>
     );
